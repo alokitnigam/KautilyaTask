@@ -49,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFav(int position) {
+                if (itemModels.get(position).getFav().equals("1"))
+                    itemModels.get(position).setFav("0");
+                else
+                    itemModels.get(position).setFav("1");
 
-                itemModels.get(position).setFav("1");
                 DBTools.getDatabase(MainActivity.this).feedDao().updateItem(itemModels.get(position));
-//                itemModels.get(position).setFav("1");
-//                itemAdapter.notifyItemChanged(position);
             }
         });
         todorv.setAdapter(itemAdapter);
@@ -67,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 itemModels.clear();
                 itemModels.addAll(itemModel);
                 itemAdapter.notifyDataSetChanged();
+            }
+        });
+        DBTools.getDatabase(this).feedDao().getFavCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer size) {
+                ((TextView)findViewById(R.id.count)).setText("Fav Items : " + size);
             }
         });
     }
@@ -103,11 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<ItemModel>> call, Response<List<ItemModel>> response) {
                 Log.i("", "onResponse: "+response.body());
                 ArrayList<ItemModel> localitemModels = (ArrayList<ItemModel>) response.body();
-
-//                itemModels.addAll(localitemModels);
                 DBTools.getDatabase(MainActivity.this).feedDao().addItems(localitemModels);
-//                itemAdapter.notifyDataSetChanged();
-
 
             }
 

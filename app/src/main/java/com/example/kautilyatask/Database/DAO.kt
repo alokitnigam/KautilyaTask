@@ -17,12 +17,9 @@ interface DAO {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateItem(item : ItemModel)
-//
-//    @Update(onConflict = OnConflictStrategy.REPLACE)
-//    fun setTitle(item : ItemModel)
 
-    @Query("Select * from ItemModel where fav='1'")
-    fun getFavCount() : LiveData<List<ItemModel>>
+    @Query("Select COUNT(*) from ItemModel where fav='1'")
+    fun getFavCount() : LiveData<Int>
 
 
 }
