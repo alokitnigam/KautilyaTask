@@ -17,12 +17,17 @@ import com.example.kautilyatask.R;
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+    private  ItemClickListener clicklistener;
     private ArrayList<ItemModel> list;
     private Context context;
-
-    public ItemAdapter(Context context,ArrayList<ItemModel> list){
+    public interface ItemClickListener{
+        void onEdit(int position);
+        void onFav(int position);
+    }
+    public ItemAdapter(Context context,ArrayList<ItemModel> list,ItemClickListener clickListener){
         this.context=context;
         this.list=list;
+        this.clicklistener=clickListener;
     }
     @NonNull
     @Override
@@ -43,6 +48,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             viewHolder.card.setCardBackgroundColor(Color.RED);
 
         }
+        viewHolder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 
@@ -53,7 +64,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        ImageView fav;
+        ImageView fav,edit;
         TextView userId,itemid;
         CardView card;
         public ViewHolder(@NonNull View itemView) {
@@ -63,6 +74,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             userId=itemView.findViewById(R.id.userId);
             itemid=itemView.findViewById(R.id.itemid);
             card=itemView.findViewById(R.id.card);
+            edit=itemView.findViewById(R.id.edit);
 
 
         }

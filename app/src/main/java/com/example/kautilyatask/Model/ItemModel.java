@@ -26,7 +26,8 @@ public class ItemModel {
     @Expose
     private Boolean completed;
 
-    private String fav;
+
+    private String fav="0";
 
     @NotNull
     public String getId() {
