@@ -1,10 +1,7 @@
 package com.podium.app.database
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.example.kautilyatask.Model.ItemModel
 import java.util.*
 
@@ -12,18 +9,20 @@ import java.util.*
 @Dao
 interface DAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upateItems(kanban:List<ItemModel>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun addItems(item :List<ItemModel>)
 
     @Query("Select * from ItemModel ")
     fun getItems() : LiveData<List<ItemModel>>
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateItem(item : ItemModel)
+//
+//    @Update(onConflict = OnConflictStrategy.REPLACE)
+//    fun setTitle(item : ItemModel)
 
-    @Query("Update itemModel SET fav = :fav where id =:id ")
-    fun setFav(fav:String,id:String)
-
-    @Query("Update itemModel SET title = :title where id =:id ")
-    fun setTitle(title:String,id:String)
+    @Query("Select * from ItemModel where fav='1'")
+    fun getFavCount() : LiveData<List<ItemModel>>
 
 
 }

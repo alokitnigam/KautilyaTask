@@ -37,7 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.title.setText(list.get(i).getTitle());
         viewHolder.userId.setText("User id:"+list.get(i).getUserId());
         viewHolder.itemid.setText(list.get(i).getId());
@@ -48,13 +48,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             viewHolder.card.setCardBackgroundColor(Color.RED);
 
         }
+        if(list.get(i).getFav().equals("1")){
+            viewHolder.fav.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_circle_red_24dp));
+
+        }else{
+            viewHolder.fav.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_circle_black_24dp));
+
+        }
         viewHolder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clicklistener.onEdit(i);
+            }
+        });
+        viewHolder.fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clicklistener.onFav(i);
+                viewHolder.fav.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_circle_red_24dp));
 
             }
         });
-
     }
 
     @Override
